@@ -1,0 +1,56 @@
+.item {
+  position: relative;
+}
+
+.imageview {
+  position: relative;
+  z-index: 0;
+}
+
+.image {
+  width: 100%;
+  height: 100%;
+  border-radius: 4px;
+  object-fit: cover;
+}
+
+.detailview {
+  width: 330px;
+  height: 106px;
+  position: absolute;
+  left: 34px;
+  bottom: 28px;
+  border-radius: 4px;
+  background-color: #fff;
+  z-index: 1;
+
+  padding: 20px;
+}
+
+.detailview > h2 {
+  margin: 0;
+  font-size: 20px;
+  line-height: 1.5;
+}
+
+.detailview > p {
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.64;
+  color: #333;
+}
+
+.spar {
+  height: 1px;
+  background-color: #ececec;
+  margin: 14px -20px;
+  border: none;
+  width: calc(100% + 40px);
+}
+
+.link {
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 700;
+  color: #36f;
+}
