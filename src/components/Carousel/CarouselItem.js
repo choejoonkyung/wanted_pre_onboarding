@@ -4,7 +4,7 @@ function CarouselItem({ img, title, subtitle, link }) {
   return (
     <article className={styles.item}>
       <div className={styles.imageview}>
-        <a href={link} target="_blank">
+        <a href={link} target="_blank" rel="noreferrer">
           <img
             className={styles.image}
             src={img}
@@ -16,7 +16,7 @@ function CarouselItem({ img, title, subtitle, link }) {
         <h2>{title}</h2>
         <p>{subtitle}</p>
         <hr className={styles.spar} />
-        <a className={styles.link} href={link} target="_blank">
+        <a className={styles.link} href={link} target="_blank" rel="noreferrer">
           <span>
             바로가기 <span>{">"}</span>
           </span>
