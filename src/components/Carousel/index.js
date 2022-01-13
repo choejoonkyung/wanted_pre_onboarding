@@ -3,6 +3,8 @@ import styles from "./Carousel.module.css";
 
 function Carousel({ children, autoMilisec = 3000 }) {
   const [active, setActive] = useState(0);
+  const [itemWidth, setItemWidth] = useState(0);
+  const [xDistance, setXdistance] = useState(0);
 
   const controlActive = (newActive) => {
     if (newActive < 0) {
@@ -19,7 +21,6 @@ function Carousel({ children, autoMilisec = 3000 }) {
     const autoSlide = setInterval(() => {
       controlActive(active + 1);
     }, autoMilisec);
-
     return () => {
       if (autoSlide) {
         clearInterval(autoSlide);
@@ -27,16 +28,36 @@ function Carousel({ children, autoMilisec = 3000 }) {
     };
   });
 
+  useEffect(() => {
+    const calculate = () => {
+      const item = document.querySelector(".inner-item");
+      const x = document.documentElement.clientWidth - item.clientWidth;
+      setItemWidth(item.clientWidth);
+      setXdistance(x / 2);
+    };
+
+    calculate();
+    window.addEventListener("resize", calculate);
+
+    return () => {
+      window.removeEventListener("resize", calculate);
+    };
+  }, []);
+
   return (
     <div className={styles.carousel}>
       <div
         className={styles.inner}
-        style={{ transform: `translateX(-${active * 100}%)` }}
+        style={{
+          transform: `translateX(${
+            xDistance - itemWidth - active * itemWidth
+          }px)`,
+        }}
       >
-        {React.Children.map(children, (child, _) => {
+        {React.Children.map(children, (child, index) => {
           return (
-            <div className={styles.innerItem} style={{ width: "100%" }}>
-              {React.cloneElement(child)}
+            <div className={`${styles.innerItem} inner-item`} style={{}}>
+              {React.cloneElement(child, { current: index === active })}
             </div>
           );
         })}
