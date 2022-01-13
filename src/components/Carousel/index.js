@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import styles from "./Carousel.module.css";
 
 function Carousel({ children, autoMilisec = 5000 }) {
-  const [active, setActive] = useState(0);
+  const [active, setActive] = useState(1);
   const [itemWidth, setItemWidth] = useState(0);
   const [xDistance, setXdistance] = useState(0);
 
@@ -58,9 +58,7 @@ function Carousel({ children, autoMilisec = 5000 }) {
           return (
             <div
               className={`${styles.innerItem} inner-item`}
-              style={{
-                filter: index === active + 1 ? "" : "brightness(50%)",
-              }}
+              data-index={index}
             >
               {React.cloneElement(child, { current: index === active + 1 })}
             </div>

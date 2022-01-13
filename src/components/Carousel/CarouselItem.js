@@ -3,7 +3,12 @@ import styles from "./Carousel.module.css";
 function CarouselItem({ img, title, subtitle, link, current }) {
   console.log(current);
   return (
-    <article className={styles.item}>
+    <article
+      className={styles.item}
+      style={{
+        filter: current ? "" : "brightness(50%)",
+      }}
+    >
       <div className={styles.imageview}>
         <a href={link} target="_blank" rel="noreferrer">
           <img
