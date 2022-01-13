@@ -21,7 +21,7 @@ export const carousel = [
     img: "https://static.wanted.co.kr/images/banners/1468/3df61cbc.jpg",
     title: "해, 커리어 EP 02 공개",
     subtitle: "최종 발표를 위한 마지막 관문 2라운드의 승자는?",
-    link: "https://www.wanted.co.kr/VLiACiB2lXw",
+    link: "https://www.youtube.com/watch?v=VLiACiB2lXw",
   },
   {
     img: "https://static.wanted.co.kr/images/banners/1460/619f3af7.jpg",
