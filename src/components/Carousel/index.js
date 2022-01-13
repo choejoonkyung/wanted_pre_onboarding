@@ -45,12 +45,12 @@ function Carousel({ children, autoMilisec = 5000 }) {
     }, 300);
   };
 
-  const calculatePosition = useCallback(() => {
+  const calculatePosition = () => {
     const item = itemRef.current;
     const x = document.documentElement.clientWidth - item.offsetWidth;
     setItemWidth(item.offsetWidth);
     setXdistance(x / 2);
-  }, [itemRef.current?.offsetWidth]);
+  };
 
   const calculateTranslateX = () => {
     if (xDistance === 0 && itemWidth === 0) {
