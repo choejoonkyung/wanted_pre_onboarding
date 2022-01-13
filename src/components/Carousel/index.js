@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import styles from "./Carousel.module.css";
 
-function Carousel({ children, autoMilisec = 3000 }) {
+function Carousel({ children, autoMilisec = 5000 }) {
   const [active, setActive] = useState(0);
   const [itemWidth, setItemWidth] = useState(0);
   const [xDistance, setXdistance] = useState(0);
@@ -56,8 +56,13 @@ function Carousel({ children, autoMilisec = 3000 }) {
       >
         {React.Children.map(children, (child, index) => {
           return (
-            <div className={`${styles.innerItem} inner-item`} style={{}}>
-              {React.cloneElement(child, { current: index === active })}
+            <div
+              className={`${styles.innerItem} inner-item`}
+              style={{
+                filter: index === active + 1 ? "" : "brightness(50%)",
+              }}
+            >
+              {React.cloneElement(child, { current: index === active + 1 })}
             </div>
           );
         })}
