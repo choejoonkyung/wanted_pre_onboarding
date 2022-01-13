@@ -1,8 +1,13 @@
 import styles from "./Carousel.module.css";
 
-function CarouselItem({ img, title, subtitle, link }) {
+function CarouselItem({ img, title, subtitle, link, current }) {
   return (
-    <article className={styles.item}>
+    <article
+      className={styles.item}
+      style={{
+        filter: current ? "" : "brightness(50%)",
+      }}
+    >
       <div className={styles.imageview}>
         <a href={link} target="_blank" rel="noreferrer">
           <img
@@ -12,16 +17,24 @@ function CarouselItem({ img, title, subtitle, link }) {
           ></img>
         </a>
       </div>
-      <div className={styles.detailview}>
-        <h2>{title}</h2>
-        <p>{subtitle}</p>
-        <hr className={styles.spar} />
-        <a className={styles.link} href={link} target="_blank" rel="noreferrer">
-          <span>
-            바로가기 <span>{">"}</span>
-          </span>
-        </a>
-      </div>
+
+      {current && (
+        <div className={styles.detailview}>
+          <h2>{title}</h2>
+          <p>{subtitle}</p>
+          <hr className={styles.spar} />
+          <a
+            className={styles.link}
+            href={link}
+            target="_blank"
+            rel="noreferrer"
+          >
+            <span>
+              바로가기 <span>{">"}</span>
+            </span>
+          </a>
+        </div>
+      )}
     </article>
   );
 }
