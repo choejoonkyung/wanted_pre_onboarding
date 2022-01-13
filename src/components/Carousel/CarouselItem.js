@@ -1,8 +1,8 @@
 import styles from "./Carousel.module.css";
 
-function CarouselItem({ img, title, subtitle, link }) {
+function CarouselItem({ img, title, subtitle, link, width }) {
   return (
-    <article className={styles.item}>
+    <article className={styles.item} style={{ width }}>
       <div className={styles.imageview}>
         <a href={link} target="_blank" rel="noreferrer">
           <img

@@ -4,6 +4,7 @@
 
 .imageview {
   position: relative;
+  display: inline-block;
   z-index: 0;
 }
 
@@ -53,4 +54,19 @@
   font-size: 14px;
   font-weight: 700;
   color: #36f;
+}
+
+.carousel {
+  overflow: hidden;
+}
+
+.inner {
+  white-space: nowrap;
+  transition: transform 0.3s;
+}
+
+.innerItem {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
 }
