@@ -93,19 +93,19 @@ function Carousel({ children, autoMilisec = 5000 }) {
             React.Children.toArray(children)[
               React.Children.toArray(children).length - 1
             ],
-            { current: active === -1 }
+            { current: active == -1 }
           )}
         </div>
         {React.Children.map(children, (child, index) => {
           return (
             <div className={`${styles.innerItem} inner-item`}>
-              {React.cloneElement(child, { current: index === active })}
+              {React.cloneElement(child, { current: index == active })}
             </div>
           );
         })}
         <div className={`${styles.innerItem} inner-item`}>
           {React.cloneElement(React.Children.toArray(children)[0], {
-            current: active === Object.keys(children).length,
+            current: active == Object.keys(children).length,
           })}
         </div>
         <div className={`${styles.innerItem} inner-item`}>
