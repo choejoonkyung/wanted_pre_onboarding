@@ -8,6 +8,7 @@ function App() {
       <Carousel>
         {carousel.map((item) => (
           <CarouselItem
+            key={item.id}
             img={item.img}
             title={item.title}
             subtitle={item.subtitle}
