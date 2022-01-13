@@ -31,7 +31,7 @@ function Carousel({ children, autoMilisec = 5000 }) {
     // 실제 좌우에 데이터가 존재하는 위치로 이동 시키는 처리.
     setTimeout(() => {
       const lenght = Object.keys(children).length;
-      if (newActive == -1) {
+      if (newActive === -1) {
         setActive(lenght - 1);
         return;
       }
@@ -93,19 +93,19 @@ function Carousel({ children, autoMilisec = 5000 }) {
             React.Children.toArray(children)[
               React.Children.toArray(children).length - 1
             ],
-            { current: active == -1 }
+            { current: active === -1 }
           )}
         </div>
         {React.Children.map(children, (child, index) => {
           return (
             <div className={`${styles.innerItem} inner-item`}>
-              {React.cloneElement(child, { current: index == active })}
+              {React.cloneElement(child, { current: index === active })}
             </div>
           );
         })}
         <div className={`${styles.innerItem} inner-item`}>
           {React.cloneElement(React.Children.toArray(children)[0], {
-            current: active == Object.keys(children).length,
+            current: active === Object.keys(children).length,
           })}
         </div>
         <div className={`${styles.innerItem} inner-item`}>
