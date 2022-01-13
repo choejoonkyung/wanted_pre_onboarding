@@ -6,17 +6,18 @@ function Carousel({ children, autoMilisec = 5000 }) {
   const [itemWidth, setItemWidth] = useState(0);
   const [xDistance, setXdistance] = useState(0);
   const [flag, setFlag] = useState(false);
-  const ref = useRef(null);
+  const innerRef = useRef(null);
+  const itemRef = useRef(null);
 
   const controlTransition = (newAtive) =>
     new Promise((resolve, reject) => {
       setFlag(true);
       setActive(() => {
-        ref.current.style.transition = "transform 0.3s";
+        innerRef.current.style.transition = "transform 0.3s";
         return newAtive;
       });
       setTimeout(() => {
-        ref.current.style.transition = "";
+        innerRef.current.style.transition = "";
         setFlag(false);
       }, 300);
       resolve();
@@ -55,9 +56,9 @@ function Carousel({ children, autoMilisec = 5000 }) {
 
   useEffect(() => {
     const calculate = () => {
-      const item = document.querySelector(".inner-item");
-      const x = document.documentElement.clientWidth - item.clientWidth;
-      setItemWidth(item.clientWidth);
+      const x =
+        document.documentElement.clientWidth - itemRef.current.clientWidth;
+      setItemWidth(itemRef.current.clientWidth);
       setXdistance(x / 2);
     };
 
@@ -67,20 +68,20 @@ function Carousel({ children, autoMilisec = 5000 }) {
     return () => {
       window.removeEventListener("resize", calculate);
     };
-  }, []);
+  }, [itemRef?.current?.clientWidth]);
 
   return (
     <div className={styles.carousel}>
       <div
         className={styles.inner}
-        ref={ref}
+        ref={innerRef}
         style={{
           transform: `translateX(${
             xDistance - 2 * itemWidth - active * itemWidth
           }px)`,
         }}
       >
-        <div className={`${styles.innerItem} inner-item`}>
+        <div className={`${styles.innerItem}`} ref={itemRef}>
           {React.cloneElement(
             React.Children.toArray(children)[
               React.Children.toArray(children).length - 2
@@ -88,7 +89,7 @@ function Carousel({ children, autoMilisec = 5000 }) {
             { current: false }
           )}
         </div>
-        <div className={`${styles.innerItem} inner-item`}>
+        <div className={`${styles.innerItem}`}>
           {React.cloneElement(
             React.Children.toArray(children)[
               React.Children.toArray(children).length - 1
@@ -98,17 +99,17 @@ function Carousel({ children, autoMilisec = 5000 }) {
         </div>
         {React.Children.map(children, (child, index) => {
           return (
-            <div className={`${styles.innerItem} inner-item`}>
+            <div className={`${styles.innerItem}`}>
               {React.cloneElement(child, { current: index === active })}
             </div>
           );
         })}
-        <div className={`${styles.innerItem} inner-item`}>
+        <div className={`${styles.innerItem}`}>
           {React.cloneElement(React.Children.toArray(children)[0], {
             current: active === Object.keys(children).length,
           })}
         </div>
-        <div className={`${styles.innerItem} inner-item`}>
+        <div className={`${styles.innerItem}`}>
           {React.cloneElement(React.Children.toArray(children)[1], {
             current: false,
           })}
