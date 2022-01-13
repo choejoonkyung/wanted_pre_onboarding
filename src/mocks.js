@@ -51,9 +51,16 @@ export const carousel = [
   },
   {
     id: 8,
-    img: "https://static.wanted.co.kr/images/banners/1454/e504b006.jpg",
+    img: "https://static.wanted.co.kr/images/banners/1434/fdbbcb06.jpg",
     title: "요즘 MD가 일하는 방법",
     subtitle: "실무자가 공개하는 MD 커리어의 모든 것!",
     link: "https://www.wanted.co.kr/events/careertalk16",
+  },
+  {
+    id: 9,
+    img: "https://static.wanted.co.kr/images/banners/1451/725c6862.jpg",
+    title: "믿을 것은 데이터 뿐!",
+    subtitle: "요즘 데이터팀은 어떻게 일할까?",
+    link: "https://www.wanted.co.kr/events/wantedcon18",
   },
 ];
