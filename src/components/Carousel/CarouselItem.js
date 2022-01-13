@@ -1,7 +1,6 @@
 import styles from "./Carousel.module.css";
 
 function CarouselItem({ img, title, subtitle, link, current }) {
-  console.log(current);
   return (
     <article
       className={styles.item}

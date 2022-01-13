@@ -1,25 +1,29 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import styles from "./Carousel.module.css";
 
 function Carousel({ children, autoMilisec = 5000 }) {
   const [active, setActive] = useState(1);
   const [itemWidth, setItemWidth] = useState(0);
   const [xDistance, setXdistance] = useState(0);
+  const ref = useRef(null);
 
-  const controlActive = (newActive) => {
-    if (newActive < 0) {
+  const control = (newActive) => {
+    const lenght = Object.keys(children).length;
+    console.log(newActive);
+    if (newActive === -1) {
+      setActive(lenght - 1);
+      return;
+    }
+    if (newActive >= lenght) {
       setActive(0);
       return;
     }
-
-    if (newActive >= React.Children.count(children)) return;
-
     setActive(newActive);
   };
 
   useEffect(() => {
     const autoSlide = setInterval(() => {
-      controlActive(active + 1);
+      control(active + 1);
     }, autoMilisec);
     return () => {
       if (autoSlide) {
@@ -48,35 +52,44 @@ function Carousel({ children, autoMilisec = 5000 }) {
     <div className={styles.carousel}>
       <div
         className={styles.inner}
+        ref={ref}
         style={{
           transform: `translateX(${
             xDistance - itemWidth - active * itemWidth
           }px)`,
         }}
       >
+        <div className={`${styles.innerItem} inner-item`}>
+          {React.cloneElement(React.Children.toArray(children)[0], {
+            current: false,
+          })}
+        </div>
         {React.Children.map(children, (child, index) => {
           return (
-            <div
-              className={`${styles.innerItem} inner-item`}
-              data-index={index}
-            >
-              {React.cloneElement(child, { current: index === active + 1 })}
+            <div className={`${styles.innerItem} inner-item`}>
+              {React.cloneElement(child, { current: index === active })}
             </div>
           );
         })}
+        <div className={`${styles.innerItem} inner-item`}>
+          {React.cloneElement(
+            React.Children.toArray(children)[React.Children.count()],
+            { current: false }
+          )}
+        </div>
       </div>
 
       <div>
         <button
           onClick={() => {
-            controlActive(active - 1);
+            control(active - 1);
           }}
         >
           prev
         </button>
         <button
           onClick={() => {
-            controlActive(active + 1);
+            control(active + 1);
           }}
         >
           next
