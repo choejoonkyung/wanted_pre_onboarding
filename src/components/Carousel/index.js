@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import styles from "./Carousel.module.css";
 
 function Carousel({ children, autoMilisec = 5000 }) {
@@ -18,8 +18,10 @@ function Carousel({ children, autoMilisec = 5000 }) {
       });
       setTimeout(() => {
         innerRef.current.style.transition = "";
-        setFlag(false);
       }, 300);
+      setTimeout(() => {
+        setFlag(false);
+      }, 500);
       resolve();
     });
 
@@ -43,6 +45,20 @@ function Carousel({ children, autoMilisec = 5000 }) {
     }, 300);
   };
 
+  const calculatePosition = useCallback(() => {
+    const item = itemRef.current;
+    const x = document.documentElement.clientWidth - item.offsetWidth;
+    setItemWidth(item.offsetWidth);
+    setXdistance(x / 2);
+  }, [itemRef.current?.offsetWidth]);
+
+  const calculateTranslateX = () => {
+    if (xDistance === 0 && itemWidth === 0) {
+      return 10000;
+    }
+    return xDistance - 2 * itemWidth - active * itemWidth - 40;
+  };
+
   useEffect(() => {
     const autoSlide = setInterval(() => {
       controlCarousel(active + 1);
@@ -55,64 +71,60 @@ function Carousel({ children, autoMilisec = 5000 }) {
   });
 
   useEffect(() => {
-    const calculate = () => {
-      const x =
-        document.documentElement.clientWidth - itemRef.current.clientWidth;
-      setItemWidth(itemRef.current.clientWidth);
-      setXdistance(x / 2);
-    };
-
-    calculate();
-    window.addEventListener("resize", calculate);
+    setActive(Math.floor(Math.random() * (Object.keys(children).length + 1)));
+    setTimeout(() => {
+      window.addEventListener("resize", calculatePosition);
+      calculatePosition();
+    }, 50);
 
     return () => {
-      window.removeEventListener("resize", calculate);
+      window.removeEventListener("resize", calculatePosition);
     };
-  }, [itemRef?.current?.clientWidth]);
+  }, []);
 
   return (
     <div className={styles.carousel}>
-      <div
-        className={styles.inner}
-        ref={innerRef}
-        style={{
-          transform: `translateX(${
-            xDistance - 2 * itemWidth - active * itemWidth
-          }px)`,
-        }}
-      >
-        <div className={`${styles.innerItem}`} ref={itemRef}>
-          {React.cloneElement(
-            React.Children.toArray(children)[
-              React.Children.toArray(children).length - 2
-            ],
-            { current: false }
-          )}
-        </div>
-        <div className={`${styles.innerItem}`}>
-          {React.cloneElement(
-            React.Children.toArray(children)[
-              React.Children.toArray(children).length - 1
-            ],
-            { current: active === -1 }
-          )}
-        </div>
-        {React.Children.map(children, (child, index) => {
-          return (
-            <div className={`${styles.innerItem}`}>
-              {React.cloneElement(child, { current: index === active })}
-            </div>
-          );
-        })}
-        <div className={`${styles.innerItem}`}>
-          {React.cloneElement(React.Children.toArray(children)[0], {
-            current: active === Object.keys(children).length,
+      <div style={{ padding: "0px 40px" }}>
+        <div
+          className={styles.inner}
+          ref={innerRef}
+          style={{
+            transform: `translateX(${calculateTranslateX()}px)`,
+          }}
+        >
+          <div className={`${styles.innerItem}`} ref={itemRef}>
+            {React.cloneElement(
+              React.Children.toArray(children)[
+                React.Children.toArray(children).length - 2
+              ],
+              { current: false }
+            )}
+          </div>
+          <div className={`${styles.innerItem}`}>
+            {React.cloneElement(
+              React.Children.toArray(children)[
+                React.Children.toArray(children).length - 1
+              ],
+              { current: active === -1 }
+            )}
+          </div>
+          {React.Children.map(children, (child, index) => {
+            return (
+              <div className={`${styles.innerItem}`}>
+                {React.cloneElement(child, { current: index === active })}
+              </div>
+            );
           })}
-        </div>
-        <div className={`${styles.innerItem}`}>
-          {React.cloneElement(React.Children.toArray(children)[1], {
-            current: false,
-          })}
+          <div className={`${styles.innerItem}`}>
+            {React.cloneElement(React.Children.toArray(children)[0], {
+              current: active === Object.keys(children).length,
+            })}
+          </div>
+          <div className={`${styles.innerItem}`}>
+            {React.cloneElement(React.Children.toArray(children)[1], {
+              current: false,
+            })}
+          </div>
         </div>
       </div>
 
