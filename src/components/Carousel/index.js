@@ -1,7 +1,7 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styles from "./Carousel.module.css";
 
-function Carousel({ children }) {
+function Carousel({ children, autoMilisec = 3000 }) {
   const [active, setActive] = useState(0);
 
   const controlActive = (newActive) => {
@@ -14,6 +14,18 @@ function Carousel({ children }) {
 
     setActive(newActive);
   };
+
+  useEffect(() => {
+    const autoSlide = setInterval(() => {
+      controlActive(active + 1);
+    }, autoMilisec);
+
+    return () => {
+      if (autoSlide) {
+        clearInterval(autoSlide);
+      }
+    };
+  });
 
   return (
     <div className={styles.carousel}>
