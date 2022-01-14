@@ -58,6 +58,11 @@
 .carousel {
   position: relative;
   overflow: hidden;
+  margin-top: 70px;
+}
+
+.track {
+  padding: 0px 40px;
 }
 
 .inner {
@@ -140,5 +145,11 @@
 
   .link {
     margin-top: 12px;
+  }
+}
+
+@media (max-width: 990px) {
+  .carousel {
+    margin-top: 130px;
   }
 }

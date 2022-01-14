@@ -1,10 +1,12 @@
 import Carousel from "./components/Carousel";
 import CarouselItem from "./components/Carousel/CarouselItem";
+import GNB from "./components/GNB";
 import { carousel } from "./mocks";
 
 function App() {
   return (
     <div className="App">
+      <GNB />
       <Carousel>
         {carousel.map((item) => (
           <CarouselItem
