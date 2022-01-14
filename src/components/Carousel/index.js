@@ -5,13 +5,17 @@ function Carousel({ children, autoMilisec = 5000 }) {
   const [active, setActive] = useState(0);
   const [itemWidth, setItemWidth] = useState(0);
   const [xDistance, setXdistance] = useState(0);
-  const [flag, setFlag] = useState(false);
+  const [carouselDelayFlag, setCarouselDelayFlag] = useState(false);
   const innerRef = useRef(null);
   const itemRef = useRef(null);
 
+  const [swipeFlag, setSwipeFlag] = useState(false);
+  const [startPoint, setStartPoint] = useState(0);
+  const [swipedX, setSwipedX] = useState(0);
+
   const controlTransition = (newAtive) =>
     new Promise((resolve, reject) => {
-      setFlag(true);
+      setCarouselDelayFlag(true);
       setActive(() => {
         innerRef.current.style.transition = "transform 0.3s";
         return newAtive;
@@ -19,36 +23,35 @@ function Carousel({ children, autoMilisec = 5000 }) {
       setTimeout(() => {
         innerRef.current.style.transition = "";
       }, 300);
-      setTimeout(() => {
-        setFlag(false);
-      }, 500);
       resolve();
     });
 
   const controlCarousel = async (newActive) => {
-    // 다수의 입력 방지 플래그
-    if (flag) return;
-    await controlTransition(newActive);
+    if (carouselDelayFlag) return;
+    setTimeout(() => {
+      setCarouselDelayFlag(false);
+    }, 500);
 
-    // active가 -1이거나 children 길이를 초과하게 될 때
-    // 실제 좌우에 데이터가 존재하는 위치로 이동 시키는 처리.
-    // 300밀리초 후에 처리해야 transition 처리 후 눈속임이 가능.
+    await controlTransition(newActive);
+    checkActiveForTransform(newActive);
+  };
+
+  const checkActiveForTransform = (newActive) =>
     setTimeout(() => {
       const lenght = Object.keys(children).length;
       if (newActive === -1) {
         setActive(lenght - 1);
         return;
       }
-      if (newActive === lenght) {
+      if (newActive >= lenght) {
         setActive(0);
         return;
       }
     }, 300);
-  };
 
   const calculatePosition = () => {
     const item = itemRef.current;
-    const x = document.documentElement.clientWidth - item.offsetWidth;
+    const x = document.documentElement.clientWidth - item?.offsetWidth;
     setItemWidth(item.offsetWidth);
     setXdistance(x / 2);
   };
@@ -57,7 +60,57 @@ function Carousel({ children, autoMilisec = 5000 }) {
     if (xDistance === 0 && itemWidth === 0) {
       return 10000;
     }
-    return xDistance - 2 * itemWidth - active * itemWidth - 40;
+    return xDistance - 2 * itemWidth - active * itemWidth - 40 - swipedX;
+  };
+
+  const startSwipeCarousel = (e) => {
+    if (e.type === "touchstart") {
+      setSwipeFlag(true);
+      setStartPoint(e.changedTouches[0].clientX);
+      return;
+    }
+
+    e.preventDefault();
+    setSwipeFlag(true);
+    setStartPoint(e.clientX);
+  };
+
+  const doneSwipeCarousel = (e) => {
+    setCarouselDelayFlag(true);
+
+    const absSwipedX = Math.abs(swipedX);
+    const positive = Math.sign(swipedX) === 1 ? true : false;
+    if (itemWidth / 2 - 100 < absSwipedX) {
+      controlTransition(positive ? active + 1 : active - 1);
+      checkActiveForTransform(positive ? active + 1 : active - 1);
+    }
+
+    setTimeout(() => {
+      setCarouselDelayFlag(false);
+    }, 500);
+    setSwipedX(0);
+  };
+
+  const onSwipeCarousel = (e) => {
+    if (!swipeFlag) return;
+    if (carouselDelayFlag) return;
+
+    if (e.type === "touchmove") {
+      setSwipeFlag(true);
+      setSwipedX(startPoint - e.changedTouches[0].clientX);
+      return;
+    }
+
+    e.preventDefault();
+    setSwipedX(startPoint - e.clientX);
+  };
+
+  const onClickEventHandler = (e) => {
+    console.log(e);
+    if (clickFlag) {
+      e.preventDefault();
+      setClickFlag(false);
+    }
   };
 
   useEffect(() => {
@@ -72,11 +125,11 @@ function Carousel({ children, autoMilisec = 5000 }) {
   });
 
   useEffect(() => {
-    const InnerItemObserver = new ResizeObserver(() => {
+    const innerItemObserver = new ResizeObserver(() => {
       calculatePosition();
     });
 
-    InnerItemObserver.observe(itemRef.current);
+    innerItemObserver.observe(itemRef.current);
     window.addEventListener("resize", calculatePosition);
 
     return () => {
@@ -85,12 +138,22 @@ function Carousel({ children, autoMilisec = 5000 }) {
   }, []);
 
   useEffect(() => {
-    setActive(Math.floor(Math.random() * (Object.keys(children).length + 1)));
+    setActive(Math.floor(Math.random() * Object.keys(children).length));
   }, [children]);
 
   return (
     <div className={styles.carousel}>
-      <div style={{ padding: "0px 40px" }}>
+      <div
+        style={{ padding: "0px 40px" }}
+        onMouseDown={startSwipeCarousel}
+        onMouseUp={doneSwipeCarousel}
+        onMouseLeave={doneSwipeCarousel}
+        onMouseMove={onSwipeCarousel}
+        onTouchStart={startSwipeCarousel}
+        onTouchEnd={doneSwipeCarousel}
+        onTouchMove={onSwipeCarousel}
+        onClick={onClickEventHandler}
+      >
         <div
           className={styles.inner}
           ref={innerRef}
