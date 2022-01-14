@@ -63,4 +63,11 @@ export const carousel = [
     subtitle: "요즘 데이터팀은 어떻게 일할까?",
     link: "https://www.wanted.co.kr/events/wantedcon18",
   },
+  {
+    id: 10,
+    img: "https://static.wanted.co.kr/images/banners/1473/41f7b36e.jpg",
+    title: "나도 개발자 되고 싶다",
+    subtitle: "프론트엔드 무료 교육과정 참여하기",
+    link: "https://www.wanted.co.kr/events/pre_onboarding_course_6",
+  },
 ];
