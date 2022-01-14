@@ -58,6 +58,7 @@
 .carousel {
   position: relative;
   overflow: hidden;
+  margin-top: 70px;
 }
 
 .track {
