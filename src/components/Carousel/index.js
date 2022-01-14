@@ -84,11 +84,15 @@ function Carousel({ children, autoMilisec = 5000 }) {
       setCarouselDelayFlag(true);
     }
 
+    if (absSwipedX > 0) {
+      setCarouselDelayFlag(true);
+    }
+
+    setSwipedX(0);
     setSwipeFlag(false);
     setTimeout(() => {
       setCarouselDelayFlag(false);
     }, 400);
-    setSwipedX(0);
   };
 
   const onSwipeCarousel = (e) => {
