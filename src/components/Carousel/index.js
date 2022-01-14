@@ -76,18 +76,18 @@ function Carousel({ children, autoMilisec = 5000 }) {
   };
 
   const doneSwipeCarousel = (e) => {
-    setCarouselDelayFlag(true);
-
     const absSwipedX = Math.abs(swipedX);
     const positive = Math.sign(swipedX) === 1 ? true : false;
     if (itemWidth / 2 - 100 < absSwipedX) {
       controlTransition(positive ? active + 1 : active - 1);
       checkActiveForTransform(positive ? active + 1 : active - 1);
+      setCarouselDelayFlag(true);
     }
 
+    setSwipeFlag(false);
     setTimeout(() => {
       setCarouselDelayFlag(false);
-    }, 500);
+    }, 400);
     setSwipedX(0);
   };
 
@@ -106,10 +106,8 @@ function Carousel({ children, autoMilisec = 5000 }) {
   };
 
   const onClickEventHandler = (e) => {
-    console.log(e);
-    if (clickFlag) {
+    if (carouselDelayFlag) {
       e.preventDefault();
-      setClickFlag(false);
     }
   };
 
