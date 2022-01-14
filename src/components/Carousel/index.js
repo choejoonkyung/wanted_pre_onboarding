@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import styles from "./Carousel.module.css";
 
 function Carousel({ children, autoMilisec = 5000 }) {
@@ -32,13 +32,14 @@ function Carousel({ children, autoMilisec = 5000 }) {
 
     // active가 -1이거나 children 길이를 초과하게 될 때
     // 실제 좌우에 데이터가 존재하는 위치로 이동 시키는 처리.
+    // 300밀리초 후에 처리해야 transition 처리 후 눈속임이 가능.
     setTimeout(() => {
       const lenght = Object.keys(children).length;
       if (newActive === -1) {
         setActive(lenght - 1);
         return;
       }
-      if (newActive >= lenght) {
+      if (newActive === lenght) {
         setActive(0);
         return;
       }
@@ -71,16 +72,21 @@ function Carousel({ children, autoMilisec = 5000 }) {
   });
 
   useEffect(() => {
-    setActive(Math.floor(Math.random() * (Object.keys(children).length + 1)));
-    setTimeout(() => {
-      window.addEventListener("resize", calculatePosition);
+    const InnerItemObserver = new ResizeObserver(() => {
       calculatePosition();
-    }, 50);
+    });
+
+    InnerItemObserver.observe(itemRef.current);
+    window.addEventListener("resize", calculatePosition);
 
     return () => {
       window.removeEventListener("resize", calculatePosition);
     };
   }, []);
+
+  useEffect(() => {
+    setActive(Math.floor(Math.random() * (Object.keys(children).length + 1)));
+  }, [children]);
 
   return (
     <div className={styles.carousel}>
@@ -92,7 +98,7 @@ function Carousel({ children, autoMilisec = 5000 }) {
             transform: `translateX(${calculateTranslateX()}px)`,
           }}
         >
-          <div className={`${styles.innerItem}`} ref={itemRef}>
+          <div className={styles.innerItem} ref={itemRef}>
             {React.cloneElement(
               React.Children.toArray(children)[
                 React.Children.toArray(children).length - 2
@@ -100,7 +106,7 @@ function Carousel({ children, autoMilisec = 5000 }) {
               { current: false }
             )}
           </div>
-          <div className={`${styles.innerItem}`}>
+          <div className={styles.innerItem}>
             {React.cloneElement(
               React.Children.toArray(children)[
                 React.Children.toArray(children).length - 1
@@ -110,17 +116,17 @@ function Carousel({ children, autoMilisec = 5000 }) {
           </div>
           {React.Children.map(children, (child, index) => {
             return (
-              <div className={`${styles.innerItem}`}>
+              <div className={styles.innerItem}>
                 {React.cloneElement(child, { current: index === active })}
               </div>
             );
           })}
-          <div className={`${styles.innerItem}`}>
+          <div className={styles.innerItem}>
             {React.cloneElement(React.Children.toArray(children)[0], {
               current: active === Object.keys(children).length,
             })}
           </div>
-          <div className={`${styles.innerItem}`}>
+          <div className={styles.innerItem}>
             {React.cloneElement(React.Children.toArray(children)[1], {
               current: false,
             })}
