@@ -60,6 +60,10 @@
   overflow: hidden;
 }
 
+.track {
+  padding: 0px 40px;
+}
+
 .inner {
   white-space: nowrap;
 }

@@ -23,14 +23,14 @@ function Carousel({ children, autoMilisec = 5000 }) {
       setTimeout(() => {
         innerRef.current.style.transition = "";
       }, 300);
+      setTimeout(() => {
+        setCarouselDelayFlag(false);
+      }, 1000);
       resolve();
     });
 
   const controlCarousel = async (newActive) => {
     if (carouselDelayFlag) return;
-    setTimeout(() => {
-      setCarouselDelayFlag(false);
-    }, 500);
 
     await controlTransition(newActive);
     checkActiveForTransform(newActive);
@@ -146,7 +146,7 @@ function Carousel({ children, autoMilisec = 5000 }) {
   return (
     <div className={styles.carousel}>
       <div
-        style={{ padding: "0px 40px" }}
+        className={styles.track}
         onMouseDown={startSwipeCarousel}
         onMouseUp={doneSwipeCarousel}
         onMouseLeave={doneSwipeCarousel}
