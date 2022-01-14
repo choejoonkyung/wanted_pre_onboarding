@@ -5,6 +5,7 @@ import "./wanted.css";
 import SearchIcon from "../../icons/SearchIcon";
 import AlertIcon from "../../icons/AlertIcon";
 import NewBadge from "../../icons/NewBadge";
+import DocIcon from "../../icons/DocIcon";
 
 function GNB() {
   return (
@@ -22,24 +23,27 @@ function GNB() {
         </aside>
 
         <ul className={styles.menus}>
+          <li className={styles.homeMenu}>
+            <span>홈</span>
+          </li>
           <li className={styles.menu}>
             <span>채용</span>
           </li>
           <li className={styles.menu}>
             <span>이벤트</span>
           </li>
-          <li className={styles.menu}>
+          <li className={`${styles.menu} ${styles.resMenu}`}>
             <span>직군별 연봉</span>
           </li>
-          <li className={styles.menu}>
+          <li className={`${styles.menu} ${styles.resMenu}`}>
             <span>이력서</span>
           </li>
-          <li className={styles.menu}>
+          <li className={`${styles.menu} ${styles.resMenu}`}>
             <span>커뮤니티</span>
             <NewIcon className={styles.newicon} />
           </li>
-          <li className={styles.menu}>프리랜서</li>
-          <li className={styles.menu}>
+          <li className={`${styles.menu} ${styles.resMenu}`}>프리랜서</li>
+          <li className={`${styles.menu} ${styles.resMenu}`}>
             <span>AI 합격예측</span>
             <BetaIcon />
           </li>
@@ -71,6 +75,9 @@ function GNB() {
             <li className={styles.hr}></li>
             <li>
               <button className={styles.service}>기업 서비스</button>
+            </li>
+            <li className={styles.doc}>
+              <DocIcon />
             </li>
           </ul>
         </aside>
