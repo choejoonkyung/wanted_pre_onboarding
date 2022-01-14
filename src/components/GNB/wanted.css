@@ -914,6 +914,7 @@
   content: "\e999";
 }
 .icon-logo_new:before {
+  cursor: pointer;
   content: "\e992";
 }
 .icon-uparrow:before {

@@ -1,7 +1,10 @@
-import BetaIcon from "./BetaIcon";
+import BetaIcon from "../../icons/BetaIcon";
 import styles from "./GNB.module.css";
-import NewIcon from "./NewIcon";
+import NewIcon from "../../icons/NewIcon";
 import "./wanted.css";
+import SearchIcon from "../../icons/SearchIcon";
+import AlertIcon from "../../icons/AlertIcon";
+import NewBadge from "../../icons/NewBadge";
 
 function GNB() {
   return (
@@ -41,6 +44,36 @@ function GNB() {
             <BetaIcon />
           </li>
         </ul>
+
+        <aside>
+          <ul className={styles.my}>
+            <li className={styles.myItem}>
+              <button className={styles.button}>
+                <SearchIcon />
+              </button>
+            </li>
+            <li className={styles.myItem}>
+              <button className={styles.button}>
+                <AlertIcon />
+                <span>
+                  <NewBadge top="1px" right="3px" />
+                </span>
+              </button>
+            </li>
+            <li className={styles.myItem}>
+              <div className={styles.avatarWrapper}>
+                <div className={styles.avatarImage}></div>
+                <span>
+                  <NewBadge top="-1px" right="-3px" />
+                </span>
+              </div>
+            </li>
+            <li className={styles.hr}></li>
+            <li>
+              <button className={styles.service}>기업 서비스</button>
+            </li>
+          </ul>
+        </aside>
       </div>
     </nav>
   );
