@@ -4,21 +4,20 @@ function NewIcon() {
       style={{
         position: "absolute",
         top: "9px",
-        right: "-4px",
+        right: "-5px",
       }}
     >
       <svg
         xmlns="http://www.w3.org/2000/svg"
-        width="18"
+        width="22"
         height="11"
         viewBox="0 0 18 11"
       >
         <g
           fill="none"
-          fill-rule="evenodd"
-          font-family="AppleSDGothicNeo-SemiBold, Apple SD Gothic Neo"
-          font-size="9"
-          font-weight="500"
+          fillRule="evenodd"
+          fontFamily="AppleSDGothicNeo-SemiBold, Apple SD Gothic Neo"
+          fontSize="9"
         >
           <g fill="#36F">
             <g>
