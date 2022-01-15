@@ -147,6 +147,19 @@
   display: none;
 }
 
+@media (max-width: 1200px) {
+  .menu:hover {
+    box-shadow: none;
+  }
+  .menus {
+    justify-content: space-between;
+  }
+  .menu {
+    position: relative;
+    padding: 16px;
+  }
+}
+
 @media (max-width: 990px) {
   .GNB {
     height: 108px;

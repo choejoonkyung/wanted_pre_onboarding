@@ -42,7 +42,9 @@ function GNB() {
             <span>커뮤니티</span>
             <NewIcon className={styles.newicon} />
           </li>
-          <li className={`${styles.menu} ${styles.resMenu}`}>프리랜서</li>
+          <li className={`${styles.menu} ${styles.resMenu}`}>
+            <span>프리랜서</span>
+          </li>
           <li className={`${styles.menu} ${styles.resMenu}`}>
             <span>AI 합격예측</span>
             <BetaIcon />
