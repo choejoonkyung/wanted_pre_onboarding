@@ -200,4 +200,7 @@
   .homeMenu {
     display: block;
   }
+  .my {
+    padding-right: 5px;
+  }
 }
