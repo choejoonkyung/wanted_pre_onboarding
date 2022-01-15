@@ -39,15 +39,19 @@ function GNB() {
             <span>이력서</span>
           </li>
           <li className={`${styles.menu} ${styles.resMenu}`}>
-            <span>커뮤니티</span>
-            <NewIcon className={styles.newicon} />
+            <span>
+              커뮤니티
+              <NewIcon className={styles.newicon} />
+            </span>
           </li>
           <li className={`${styles.menu} ${styles.resMenu}`}>
             <span>프리랜서</span>
           </li>
           <li className={`${styles.menu} ${styles.resMenu}`}>
-            <span>AI 합격예측</span>
-            <BetaIcon />
+            <span>
+              AI 합격예측
+              <BetaIcon />
+            </span>
           </li>
         </ul>
 
@@ -61,16 +65,14 @@ function GNB() {
             <li className={styles.myItem}>
               <button className={styles.button}>
                 <AlertIcon />
-                <span>
-                  <NewBadge top="1px" right="3px" />
-                </span>
+                <NewBadge top="0px" right="3px" />
               </button>
             </li>
             <li className={styles.myItem}>
               <div className={styles.avatarWrapper}>
-                <div className={styles.avatarImage}></div>
                 <span>
-                  <NewBadge top="-1px" right="-3px" />
+                  <div className={styles.avatarImage}></div>
+                  <NewBadge top="-3px" right="-3px" />
                 </span>
               </div>
             </li>

@@ -3,8 +3,8 @@ function NewIcon() {
     <em
       style={{
         position: "absolute",
-        top: "9px",
-        right: "-5px",
+        top: "-10px",
+        right: "-16px",
       }}
     >
       <svg
