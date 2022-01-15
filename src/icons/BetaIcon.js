@@ -8,8 +8,8 @@ function BetaIcon() {
         viewBox="0 0 18 11"
         style={{
           position: "absolute",
-          top: "10px",
-          right: "-4px",
+          top: "-6px",
+          right: "-16px",
         }}
       >
         <g
