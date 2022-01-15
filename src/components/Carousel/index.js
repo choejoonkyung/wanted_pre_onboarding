@@ -1,5 +1,7 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState, useCallback } from "react";
 import styles from "./Carousel.module.css";
+
+let clickFlag = false;
 
 function Carousel({ children, autoMilisec = 5000 }) {
   const [active, setActive] = useState(0);
@@ -15,7 +17,6 @@ function Carousel({ children, autoMilisec = 5000 }) {
 
   const controlTransition = (newAtive) =>
     new Promise((resolve, reject) => {
-      setCarouselDelayFlag(true);
       setActive(() => {
         innerRef.current.style.transition = "transform 0.3s";
         return newAtive;
@@ -23,15 +24,19 @@ function Carousel({ children, autoMilisec = 5000 }) {
       setTimeout(() => {
         innerRef.current.style.transition = "";
       }, 300);
-      setTimeout(() => {
-        setCarouselDelayFlag(false);
-      }, 1000);
       resolve();
     });
 
-  const controlCarousel = async (newActive) => {
-    if (carouselDelayFlag) return;
+  const flagTimer = useCallback(() => {
+    clickFlag = true;
+    setTimeout(() => {
+      clickFlag = false;
+    }, 800);
+  }, []);
 
+  const controlCarousel = async (newActive) => {
+    if (clickFlag) return;
+    flagTimer();
     await controlTransition(newActive);
     checkActiveForTransform(newActive);
   };
@@ -52,7 +57,7 @@ function Carousel({ children, autoMilisec = 5000 }) {
   const calculatePosition = () => {
     const item = itemRef.current;
     const x = document.documentElement.clientWidth - item?.offsetWidth;
-    setItemWidth(item.offsetWidth);
+    setItemWidth(item?.offsetWidth);
     setXdistance(x / 2);
   };
 
@@ -88,11 +93,12 @@ function Carousel({ children, autoMilisec = 5000 }) {
       setCarouselDelayFlag(true);
     }
 
-    setSwipedX(0);
-    setSwipeFlag(false);
     setTimeout(() => {
       setCarouselDelayFlag(false);
-    }, 400);
+    }, 300);
+
+    setSwipedX(0);
+    setSwipeFlag(false);
   };
 
   const onSwipeCarousel = (e) => {
