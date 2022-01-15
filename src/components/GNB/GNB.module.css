@@ -156,7 +156,10 @@
   }
   .menu {
     position: relative;
-    padding: 16px;
+    padding: 12px 10px;
+  }
+  .wrapper {
+    width: 90%;
   }
 }
 
